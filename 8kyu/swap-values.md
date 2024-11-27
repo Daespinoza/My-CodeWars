@@ -20,3 +20,32 @@ Describe(Sample_cases) {
   }
 };
 ```
+
+## In C:
+
+```c
+#include <criterion/criterion.h>
+
+static void tester(int values[2]);
+void swap_values(int values[2]);
+
+Test(swap_values, Sample_Test) {
+    {
+        int values[2] = {1, 2};
+    /*    should become {2, 1}    */
+        tester(values);
+    }
+}
+
+static void tester(int values[2]) {
+    const int first = values[0];
+    const int second = values[1];
+    swap_values(values);
+    cr_assert(
+        values[0] == second &&
+        values[1] == first,
+        "< Incorrect Result >\n \ngiven values: {%d, %d}\n \nswap outcome: {%d, %d}\nwas expected: {%d, %d}",
+                                              first, second,         values[0], values[1],      second, first
+    );
+}
+```
